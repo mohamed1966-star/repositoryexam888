@@ -101,17 +101,17 @@ while i<200:
         conn.commit()
         print("")
         print("...................تمت العملية بنجاح....................... ")
-        Event().wait(4)
+        Event().wait(4) # الانتظار لاربع ثواني
 # نقوم بحذف الطالب من الجدولين students and registless
     elif "d" in letters:
 
         prompts = chain(["Enter studentId: "], repeat("ليس رقما! حاول ثانية:           "))
         replies = map(input, prompts)
         studentId = next(filter(str.isdigit, replies))
-
+# البحث ثم كتابة المعلومات التي وجدناها
         row=cur.execute("SELECT * from students WHERE studentId = ?",(studentId,)).fetchall()
         print(row)
-
+# البحث ثم كتابة المعلومات التي وجدناها
         row = cur.execute("SELECT * from registless WHERE studentId = ?", (studentId,)).fetchall()
         print(row)
         Event().wait(5)
