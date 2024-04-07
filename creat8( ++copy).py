@@ -1,6 +1,6 @@
 import sqlite3
-from itertools import chain, repeat
-from threading import Event
+from itertools import chain, repeat # repeat عند الخطا في الادخال 
+from threading import Event #  خاصة بعملية الانتظار 
 
 print("\n""\n")
 i=0
@@ -17,10 +17,10 @@ while i<200:
     letters=["a","d","u","s"]
     print("\n")
     letters=input("                            Enter a letter:")
-
+#  الاتصال بقاعدة البيانات
     conn = sqlite3.connect('school8888.db') 
     cur = conn.cursor()
-
+# انشاء الجداول
     cur.execute('''CREATE TABLE IF NOT EXISTS students 
                 (studentId INTEGER PRIMARY KEY,
                 firstName TEXT not null,
@@ -38,29 +38,29 @@ while i<200:
                 studentId integer not null,
                 foreign key (studentId) references students (studentId));''')
 
-
+# نقوم باضافة الطالب مع التسجيل في الدروس المختارة
     if "a" in letters:
-
+# ادخال رفم الطالب ولا بمكن ادخال الاحرف 
         prompts = chain(["Enter studentId: "], repeat("ليس رقما! حاول ثانية:    "))
         replies = map(input, prompts)
         studentId= next(filter(str.isdigit, replies))
-
+# ادخال اسم الطالب ولا بمكن ادخال الارقام
         prompts = chain(["Enter firstName: "], repeat("ليست كلمة! حاول ثانية:    "))
         replies = map(input, prompts)
         firstName= next(filter(str.isalpha, replies))
-
+# ادخال كنية الطالب ولا بمكن ادخال الارقام
         prompts = chain(["Enter lastName: "], repeat("ليست كلمة! حاول ثانية:    "))
         replies = map(input, prompts)
         lastName = next(filter(str.isalpha, replies))
-
+# ادخال عمر الطالب ولا بمكن ادخال الاحرف
         prompts = chain(["Enter age: "], repeat("ليس رقما! حاول ثانية:     "))
         replies = map(input, prompts)
         age = next(filter(str.isdigit, replies))
-
+# ادخال صف الطالب ولا بمكن ادخال الارقام 
         prompts = chain(["Enter the grade: "], repeat("ليست كلمة! حاول ثانية:    "))
         replies = map(input, prompts)
         grade = next(filter(str.isalpha, replies))
-
+# ادخال التاريخ ولا بمكن ادخال الاحرف
         prompts = chain(["Enter date: "], repeat("ليس رقما! حاول ثانية:    "))
         replies = map(input, prompts)
         date = next(filter(str.isdigit, replies))
@@ -74,7 +74,7 @@ while i<200:
         finally:
             print(".................tasks completed.................")
 
-        #ظهور ان السطر قد اضيف
+# ظهور ادخال الخط          
         print(cur.rowcount, "تم إدخال الخط .....................    ")
 
         cur.execute("INSERT INTO lessons (lessonId, lesson) VALUES (1, 'php')")
@@ -82,7 +82,7 @@ while i<200:
         cur.execute("INSERT INTO lessons (lessonId, lesson) VALUES (3, 'python')")
         cur.execute("INSERT INTO lessons (lessonId, lesson) VALUES (4, 'ruby')")
 
-        #عدد الدروس المسجل فيها الطالب
+  #عدد الدروس المسجل فيها الطالب      
         print("الرجاء اختيار الدروس التي تريدها                         ")
         print("المكون php        اضغط على        1                      ")
         print("المكون javascript اضغط على        2                      ")
@@ -92,17 +92,17 @@ while i<200:
 
         number=int(input("كم من مكون تريد التسجيل فيه  :                    "))
         
-        i=1
-        while i<=number :
+        y=1
+        while y<=number :
             lessonId=input("ادخل رقم المكون :             ")
             cur.execute("insert into registless ('lessonId', 'studentId') VALUES (?, ?)",(lessonId, studentId))
-            i+=1
-
+            y+=1
+# عملية حفظ المعلومات
         conn.commit()
         print("")
         print("...................تمت العملية بنجاح....................... ")
         Event().wait(4)
-
+# نقوم بحذف الطالب من الجدولين students and registless
     elif "d" in letters:
 
         prompts = chain(["Enter studentId: "], repeat("ليس رقما! حاول ثانية:           "))
@@ -131,7 +131,7 @@ while i<200:
         print("")
         print("...................تمت العملية بنجاح.................... ")
         Event().wait(4)
-
+# نقوم بالتعديلات كلها او البعض منها
     elif "u" in letters:
 
         prompts = chain(["Enter studentId: "], repeat("ليس رقما! حاول ثانية:   "))
@@ -219,7 +219,7 @@ while i<200:
         print("")
         print("..................تمت العملية بنجاح .................  ")
         Event().wait(3)
-        
+# نقوم بالاستعلام        
     elif "s" in letters:
 
         prompts = chain(["Enter studentId: "], repeat("ليس رقما! حاول ثانية:     "))
